@@ -2,18 +2,18 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SideWalls : MonoBehaviour
+public class SideWalls2 : MonoBehaviour
 {
     public AudioClip somDeColisao;
 
     void OnTriggerEnter2D(Collider2D hitInfo)
     {
-        GameManager gameManager = FindObjectOfType<GameManager>(); 
+        GameM gameManager2 = FindObjectOfType<GameM>();
 
-        if (hitInfo.name == "Ball" && gameManager != null)
+        if (hitInfo.name == "Ball" && gameManager2 != null)
         {
             string wallName = transform.name;
-            gameManager.Score(wallName); 
+            gameManager2.Score(wallName);
             hitInfo.gameObject.SendMessage("RestartGame", 1.0f, SendMessageOptions.RequireReceiver);
 
             if (somDeColisao != null)
@@ -29,6 +29,6 @@ public class SideWalls : MonoBehaviour
                 audioSource.Play();
             }
         }
-        
+
     }
 }

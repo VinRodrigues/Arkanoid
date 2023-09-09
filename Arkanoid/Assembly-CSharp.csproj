@@ -58,9 +58,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\obstaculo.cs" />
+    <Compile Include="Assets\SideWalls2.cs" />
     <Compile Include="Assets\SideWalls.cs" />
     <Compile Include="Assets\BallControl.cs" />
     <Compile Include="Assets\PlayerControls.cs" />
+    <Compile Include="Assets\GameM.cs" />
     <Compile Include="Assets\GameManager.cs" />
   </ItemGroup>
   <ItemGroup>

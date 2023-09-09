@@ -1,8 +1,8 @@
-using UnityEngine;
+using System.Collections;
 using System.Collections.Generic;
+using UnityEngine;
 using UnityEngine.SceneManagement;
-
-public class GameManager : MonoBehaviour
+public class GameM : MonoBehaviour
 {
     public int PlayerScore1 = 0;
     public int PlayerLives = 5;
@@ -117,6 +117,6 @@ public class GameManager : MonoBehaviour
 
     public void ChangeScene()
     {
-        SceneManager.LoadScene("fase2"); // Substitua "NomeDaSuaCena" pelo nome da cena que você deseja carregar
+        SceneManager.LoadScene("SampleScene"); // Substitua "NomeDaSuaCena" pelo nome da cena que você deseja carregar
     }
 }

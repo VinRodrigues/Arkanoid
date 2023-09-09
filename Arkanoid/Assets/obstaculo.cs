@@ -15,9 +15,15 @@ public class obstaculo : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Ball") && !isDestroyed)
         {
-            // Desative o objeto quando atingido pela bola.
+            
             gameObject.SetActive(false);
             isDestroyed = true;
+
+            // Aumenta o score
+            GameManager gameManager = FindObjectOfType<GameManager>();
+            gameManager.Score("ScoreObject"); 
+
+            
         }
     }
 
