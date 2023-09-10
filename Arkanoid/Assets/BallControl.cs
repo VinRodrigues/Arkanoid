@@ -4,18 +4,18 @@ public class BallControl : MonoBehaviour
 {
     private Rigidbody2D rb2d;
     private AudioSource audioSource;
-    private GameManager gameManager; // Adicione uma referência ao GameManager
-    private GameM gameManager2;
+    private GameManager gameManager; 
+    
     void GoBall()
     {
         float rand = Random.Range(0, 2);
         if (rand < 1)
         {
-            rb2d.AddForce(new Vector2(20, 10)); // Força aleatória na direção diagonal superior direita
+            rb2d.AddForce(new Vector2(20, 10)); 
         }
         else
         {
-            rb2d.AddForce(new Vector2(-20, 10)); // Força aleatória na direção diagonal superior esquerda
+            rb2d.AddForce(new Vector2(-20, 10)); 
         }
     }
 
@@ -26,9 +26,9 @@ public class BallControl : MonoBehaviour
         Invoke("GoBall", 2);
         audioSource = GetComponent<AudioSource>();
 
-        // Encontre o GameManager na cena
+        
         gameManager = FindObjectOfType<GameManager>();
-        gameManager2 = FindObjectOfType<GameM>();
+        
     }
 
     // Update is called once per frame
@@ -50,14 +50,10 @@ public class BallControl : MonoBehaviour
 
         if (coll.collider.CompareTag("Bottomwall"))
         {
-            gameManager.Score("Bottomwall"); // Notifique o GameManager para perder uma vida
-            RestartGame(); // Reinicie a bola
+            gameManager.Score("Bottomwall"); // Notifica o GameManager para perder uma vida
+            RestartGame(); // Reinicia a bola
         }
-        if(coll.collider.CompareTag("Bottomwall"))
-        {
-            gameManager2.Score("Bottomwall"); // Notifique o GameManager para perder uma vida
-            RestartGame(); // Reinicie a bola
-        }
+       
     }
 
     public void RestartGame()

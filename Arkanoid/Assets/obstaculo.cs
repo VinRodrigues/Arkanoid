@@ -7,7 +7,7 @@ public class obstaculo : MonoBehaviour
 
     private void Start()
     {
-        // Salve a posição inicial do objeto.
+        // Salvar a posição inicial do objeto.
         initialPosition = transform.position;
     }
 
@@ -15,15 +15,15 @@ public class obstaculo : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Ball") && !isDestroyed)
         {
-            
             gameObject.SetActive(false);
             isDestroyed = true;
 
-            // Aumenta o score
+            // Aumentar o score
             GameManager gameManager = FindObjectOfType<GameManager>();
-            gameManager.Score("ScoreObject"); 
+            gameManager.Score("ScoreObject");
 
-            
+            // Incrementar a contagem de objetos destruídos
+            gameManager.IncrementObjetosDestruidos();
         }
     }
 
@@ -32,7 +32,7 @@ public class obstaculo : MonoBehaviour
     {
         if (isDestroyed)
         {
-            // Reative o objeto e defina sua posição.
+            // Reativar o objeto e definir sua posição.
             gameObject.SetActive(true);
             transform.position = initialPosition;
             isDestroyed = false;

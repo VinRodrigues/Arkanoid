@@ -296,7 +296,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   PlayerScore1: 0
-  PlayerLives: 5
+  PlayerLives: 10
   layout: {fileID: 11400000, guid: a1bd2130516c86f4c9a163eb4f506599, type: 2}
 --- !u!4 &90646744
 Transform:

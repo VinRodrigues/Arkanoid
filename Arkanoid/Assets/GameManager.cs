@@ -15,6 +15,8 @@ public class GameManager : MonoBehaviour
     private bool levelComplete = false;
     private bool showRestartButton = false;
 
+    private int objetosDestruidos = 0; // Variável para contar quantos objetos foram destruídos na Fase 1.
+
     private void Start()
     {
         theBall = FindObjectOfType<BallControl>(); // Encontre a bola na cena
@@ -30,12 +32,12 @@ public class GameManager : MonoBehaviour
             if (PlayerLives <= 0)
             {
                 gameOver = true;
-                showRestartButton = true; // Mostrar o botão de reiniciar quando o jogo terminar
+                showRestartButton = true; // Mostra o botão de reiniciar quando o jogo terminar
             }
-            else if (objetosDestrutiveis.Count == 0)
+            else if (objetosDestruidos >= 3) // Verifica se 30 objetos foram destruídos.
             {
                 levelComplete = true;
-                showRestartButton = true; // Mostrar o botão de reiniciar quando o jogo terminar
+                showRestartButton = true; // Mostra o botão de reiniciar quando o jogo terminar
             }
         }
     }
@@ -63,9 +65,10 @@ public class GameManager : MonoBehaviour
             customLabelStyle.fontSize = 36;
             GUI.Label(new Rect(Screen.width / 2 - 150, 200, 2000, 1000), "Fase 1 Concluída", customLabelStyle);
 
-            if (showRestartButton && GUI.Button(new Rect(Screen.width / 2 - 60, 250, 120, 53), "RESTART"))
+            // Botão para avançar para a Fase 2
+            if (showRestartButton && GUI.Button(new Rect(Screen.width / 2 - 60, 250, 120, 53), "Avançar para a Fase 2"))
             {
-                RestartGame();
+                ChangeScene();
             }
         }
 
@@ -90,13 +93,14 @@ public class GameManager : MonoBehaviour
                 }
                 else
                 {
-                    theBall.RestartGame(); // Chame o método para reiniciar a bola
+                    theBall.RestartGame(); // Chama o método para reiniciar a bola
                 }
             }
             else
             {
                 PlayerScore1 += 100;
                 audioSource2.Play();
+                objetosDestruidos++; // Incrementa a contagem de objetos destruídos.
             }
         }
     }
@@ -113,10 +117,15 @@ public class GameManager : MonoBehaviour
         {
             obj.ResetObject();
         }
+        objetosDestruidos = 0; // Reseta a contagem de objetos destruídos ao reiniciar o jogo.
     }
 
     public void ChangeScene()
     {
         SceneManager.LoadScene("fase2"); // Substitua "NomeDaSuaCena" pelo nome da cena que você deseja carregar
+    }
+    public void IncrementObjetosDestruidos()
+    {
+        objetosDestruidos++;
     }
 }
