@@ -7,19 +7,20 @@ public class GameManager : MonoBehaviour
     public int PlayerScore1 = 0;
     public int PlayerLives = 5;
     public GUISkin layout;
-    private BallControl theBall; // Referência para a bola
+    private BallControl theBall; 
     private AudioSource audioSource2;
     private List<obstaculo> objetosDestrutiveis = new List<obstaculo>();
 
     private bool gameOver = false;
     private bool levelComplete = false;
     private bool showRestartButton = false;
-
-    private int objetosDestruidos = 0; // Variável para contar quantos objetos foram destruídos na Fase 1.
+    private bool showCongratsMessage = false;
+    private bool showMainMenuButton = false;
+    private int objetosDestruidos = 0; 
 
     private void Start()
     {
-        theBall = FindObjectOfType<BallControl>(); // Encontre a bola na cena
+        theBall = FindObjectOfType<BallControl>(); 
         audioSource2 = GetComponent<AudioSource>();
 
         objetosDestrutiveis.AddRange(FindObjectsOfType<obstaculo>());
@@ -34,10 +35,17 @@ public class GameManager : MonoBehaviour
                 gameOver = true;
                 showRestartButton = true; // Mostra o botão de reiniciar quando o jogo terminar
             }
-            else if (objetosDestruidos >= 3) // Verifica se 30 objetos foram destruídos.
+            else if (SceneManager.GetActiveScene().name == "SampleScene" && PlayerScore1 >= 3000) // Verifica se 30000 pontos foram alcançados na "SampleScene".
             {
                 levelComplete = true;
                 showRestartButton = true; // Mostra o botão de reiniciar quando o jogo terminar
+            }
+            else if (SceneManager.GetActiveScene().name == "fase2" && PlayerScore1 >= 6000) // Verifica se 6000 pontos foram alcançados na "fase2".
+            {
+                levelComplete = true;
+                 
+                showCongratsMessage = true; // Ativa a mensagem de parabéns
+                showMainMenuButton = true;
             }
         }
     }
@@ -45,14 +53,24 @@ public class GameManager : MonoBehaviour
     private void OnGUI()
     {
         GUI.skin = layout;
-        GUI.Label(new Rect(Screen.width / 2 - 150 - 12, 20, 100, 100), "Score: " + PlayerScore1);
-        GUI.Label(new Rect(20, 20, 100, 100), "Lives: " + PlayerLives);
+        GUI.Label(new Rect(Screen.width / 2 - 800 - 12, 20, 100, 100), "Lives: " + PlayerLives);  // para vizuliar na tela do unity use 400 inves de 800
+        GUI.Label(new Rect(Screen.width / 2 - 800 - 12, 50, 100, 100), "Score: " + PlayerScore1);//para vizuliar na tela do unity use 400 inves de 800
+
+        if (!gameOver && !levelComplete)
+        {
+            // Botão para reiniciar a bola
+            if (GUI.Button(new Rect(Screen.width / 2 - 800, 420, 120, 53), "Reset Bola"))//para vizuliar na tela do unity use 450 inves de 800
+            {
+                ResetBall();
+            }
+        }
 
         if (gameOver)
         {
             GUIStyle customLabelStyle = new GUIStyle(GUI.skin.label);
-            customLabelStyle.fontSize = 36;
-            GUI.Label(new Rect(Screen.width / 2 - 150, 200, 2000, 1000), "Game Over", customLabelStyle);
+            customLabelStyle.fontSize = 30;
+            customLabelStyle.normal.textColor = Color.red;
+            GUI.Label(new Rect(Screen.width / 2 - 85, Screen.height / 2 - 50, 200, 100), "Game Over", customLabelStyle);
 
             if (showRestartButton && GUI.Button(new Rect(Screen.width / 2 - 60, 250, 120, 53), "RESTART"))
             {
@@ -61,14 +79,40 @@ public class GameManager : MonoBehaviour
         }
         else if (levelComplete)
         {
-            GUIStyle customLabelStyle = new GUIStyle(GUI.skin.label);
-            customLabelStyle.fontSize = 36;
-            GUI.Label(new Rect(Screen.width / 2 - 150, 200, 2000, 1000), "Fase 1 Concluída", customLabelStyle);
-
-            // Botão para avançar para a Fase 2
-            if (showRestartButton && GUI.Button(new Rect(Screen.width / 2 - 60, 250, 120, 53), "Avançar para a Fase 2"))
+            if (SceneManager.GetActiveScene().name == "SampleScene")
             {
-                ChangeScene();
+                GUIStyle customLabelStyle = new GUIStyle(GUI.skin.label);
+                customLabelStyle.fontSize = 36;
+                customLabelStyle.normal.textColor = Color.yellow;
+                GUI.Label(new Rect(Screen.width / 2 - 150, 200, 2000, 1000), "Fase 1 Concluída", customLabelStyle);
+
+                if (showRestartButton && GUI.Button(new Rect(Screen.width / 2 - 60, 250, 120, 53), "Fase 2"))
+                {
+                    ChangeScene();
+                }
+            }
+            else if (SceneManager.GetActiveScene().name == "fase2")
+            {
+                if (showCongratsMessage)
+                {
+                    GUIStyle congratsStyle = new GUIStyle(GUI.skin.label);
+                    congratsStyle.fontSize = 30;
+                    congratsStyle.normal.textColor = Color.green; 
+                    GUI.Label(new Rect(Screen.width / 2 - 100, Screen.height / 2 + 40, 200, 100), "Parabéns!", congratsStyle);
+                }
+
+                if (showRestartButton && GUI.Button(new Rect(Screen.width / 2 - 60, 250, 120, 53), "RESTART"))
+                {
+                    RestartGame();
+                }
+
+                if (showMainMenuButton)
+                {
+                    if (GUI.Button(new Rect(Screen.width / 2 - 100, 350, 200, 53), "MENU PRINCIPAL"))
+                    {
+                        ReturnToMainMenu();
+                    }
+                }
             }
         }
 
@@ -105,6 +149,11 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    public void ResetBall()
+    {
+        theBall.RestartGame(); // Chama o método para reiniciar a bola
+    }
+
     public void RestartGame()
     {
         PlayerScore1 = 0;
@@ -112,6 +161,7 @@ public class GameManager : MonoBehaviour
         gameOver = false;
         levelComplete = false;
         showRestartButton = false;
+        showCongratsMessage = false; // Reseta a variável da mensagem de parabéns
         theBall.RestartGame();
         foreach (var obj in objetosDestrutiveis)
         {
@@ -122,10 +172,14 @@ public class GameManager : MonoBehaviour
 
     public void ChangeScene()
     {
-        SceneManager.LoadScene("fase2"); // Substitua "NomeDaSuaCena" pelo nome da cena que você deseja carregar
+        SceneManager.LoadScene("fase2");
     }
     public void IncrementObjetosDestruidos()
     {
         objetosDestruidos++;
+    }
+    public void ReturnToMainMenu()
+    {
+        SceneManager.LoadScene("menu"); 
     }
 }

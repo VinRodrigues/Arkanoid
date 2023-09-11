@@ -22,8 +22,8 @@ public class obstaculo : MonoBehaviour
             GameManager gameManager = FindObjectOfType<GameManager>();
             gameManager.Score("ScoreObject");
 
-            // Incrementar a contagem de objetos destruídos
-            gameManager.IncrementObjetosDestruidos();
+            
+           
         }
     }
 

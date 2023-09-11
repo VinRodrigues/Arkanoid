@@ -296,7 +296,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   PlayerScore1: 0
-  PlayerLives: 10
+  PlayerLives: 5
   layout: {fileID: 11400000, guid: a1bd2130516c86f4c9a163eb4f506599, type: 2}
 --- !u!4 &90646744
 Transform:
@@ -1278,7 +1278,7 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: e263c9fe4ff668d419731fae25076349, type: 3}
-  m_PlayOnAwake: 1
+  m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
   Loop: 0
